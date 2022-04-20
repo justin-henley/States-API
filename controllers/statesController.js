@@ -18,6 +18,21 @@ const getAllStates = async (req, res) => {
   res.json(states);
 };
 
+// Returns all data for a single state
+const getState = async (req, res) => {
+  // Check that an id was provided
+  if (!req?.params?.state) {
+    return res.status(400).json({ message: 'State ID required' });
+  }
+
+  // Find the state and its fun facts
+  const state = statesJson.findOne({ code: req.params.state });
+  const funfacts = await State.findOne({ statecode: req.params.state });
+  state.funfacts = funfacts;
+
+  return state;
+};
+
 // Export all functions
 module.exports = {
   getAllStates,
