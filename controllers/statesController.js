@@ -2,11 +2,12 @@ const State = require('../model/State');
 const statesJson = require('../public/json/states.json');
 
 // Returns all data for all states
-const getAllStates = (req, res) => {
+const getAllStates = async (req, res) => {
   // TODO Blackboard says we must attach fun facts here, but his example does not
   // TODO What is correct? Theres a function below to help with this
+  const dbJson = await State.find();
 
-  const states = statesJson;
+  const states = joinStatesWithFunFacts(statesJson, dbJson);
 
   // Check if any data was found
   if (!states) {
@@ -22,23 +23,20 @@ module.exports = {
   getAllStates,
 };
 
-// Unneeded currently
-// TODO delete later
-/* const joinStatesWithFunFacts = (statesJson, dbJson) => {
-    // TODO simplify
-    const result = statesJson.map( stateJson => {
-        // Get the state code
-        const stateCode = stateJson.code;
+// Unclear if needed currently
+// TODO delete later if not
+const joinStatesWithFunFacts = (statesJson, dbJson) => {
+  return statesJson.map((stateJson) => {
+    // Get the state code
+    const stateCode = stateJson.code;
 
-        // Find the matching fun facts in the dbJson, if any
-        const facts = dbJson.find(state => state.statecode === stateCode)
+    // Find the matching fun facts in the dbJson, if any
+    const facts = dbJson.find((state) => state.statecode === stateCode);
 
-        // Join the fun facts to the stateJson
-        stateJson.
+    // Join the fun facts to the stateJson
+    stateJson.funfacts = facts?.funfacts || [];
 
-        // Return the result
-
-    })
-
-    return result;
-} */
+    // Return the result
+    return stateJson;
+  });
+};
