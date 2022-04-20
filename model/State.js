@@ -7,6 +7,7 @@ const stateSchema = new Schema({
     type: String,
     required: true,
     unique: true,
+    uppercase: true,
   },
   // An array of fun facts about the state
   funfacts: {
