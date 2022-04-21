@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const statesController = require('../../controllers/statesController');
+const funfactsController = require('../../controllers/funfactsController');
 
 // Returns data for all states
 router.route('/').get(statesController.getAllStates);
@@ -21,6 +22,11 @@ router.route('/:state/population').get(statesController.getStatePopulation);
 router.route('/:state/admission').get(statesController.getStateAdmission);
 
 // State fun facts
-router.route('/:state/funfact').get().post().patch().delete();
+router
+  .route('/:state/funfact')
+  .get(funfactsController.getRandomFact)
+  .post(funfactsController.createFact)
+  .patch(funfactsController.modifyFact)
+  .delete(funfactsController.deleteFact);
 
 module.exports = router;
