@@ -119,9 +119,9 @@ const modifyFact = async (req, res) => {
   if (!stateCode) {
     return res.status(400).json({ message: 'State abbreviation required' });
   }
-  if (!index || funfact) {
+  if (!index || !funfact) {
     return res.status(400).json({
-      message: 'An index and a string array of funfacts is required.',
+      message: 'An index and a funfact is required.',
     });
   }
 
