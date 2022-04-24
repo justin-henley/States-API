@@ -5,9 +5,33 @@ const statesJson = require('../public/json/states.json');
 const getAllStates = async (req, res) => {
   // TODO Blackboard says we must attach fun facts here, but his example does not
   // TODO What is correct? Theres a function below to help with this
-  const dbJson = await State.find();
 
-  const states = joinStatesWithFunFacts(statesJson, dbJson);
+  // Create varaible to hold the json from the states file and the db
+  let stJson, dbJson;
+  console.log(req?.query?.contig);
+
+  // Check if contig option provided
+  if (req?.query?.contig == 'true') {
+    // If contig is true, filter out AK and HI
+    stJson = statesJson.filter(
+      (state) => state.code !== 'AK' && state.code !== 'HI'
+    );
+    dbJson = await State.find();
+    console.log(stJson, dbJson, 'found true');
+  } else if (req?.query?.contig == 'false') {
+    // If contig is false, return only AK and HI
+    stJson = statesJson.filter(
+      (state) => state.code === 'AK' || state.code === 'HI'
+    );
+    dbJson = await State.find();
+    console.log(stJson, dbJson, 'found false');
+  } else {
+    // If contig not specified, return all states
+    stJson = statesJson;
+    dbJson = await State.find();
+  }
+
+  const states = joinStatesWithFunFacts(stJson, dbJson);
 
   // Check if any data was found
   if (!states) {
