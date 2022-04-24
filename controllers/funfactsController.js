@@ -114,7 +114,7 @@ const modifyFact = async (req, res) => {
   // Store params for readability
   const stateCode = req?.params?.state;
   const index = req?.body?.index;
-  const funfact = req?.body?.index;
+  const funfact = req?.body?.funfact;
 
   if (!stateCode) {
     return res.status(400).json({ message: 'State abbreviation required' });
@@ -142,7 +142,7 @@ const modifyFact = async (req, res) => {
     res.json({ message: 'Index out of bounds.' });
   } else {
     // Modify the found entry
-    state.funfacts[index] = funfact;
+    state.funfacts[index - 1] = funfact;
 
     // Save the modified entry
     const result = await state.save();
