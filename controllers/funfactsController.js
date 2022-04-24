@@ -169,18 +169,22 @@ const modifyFact = async (req, res) => {
     }
 */
 const deleteFact = async (req, res) => {
+  // Store the undex and state
+  const stateCode = req?.params?.state;
+  const index = req?.body?.index;
+
   // Ensure all required parameters were provided
-  if (!req?.params?.state) {
+  if (!stateCode) {
     return res.status(400).json({ message: 'State abbreviation required' });
   }
-  if (!req?.body?.funfacts || !req?.body?.index) {
+  if (!index) {
     return res.status(400).json({
-      message: 'An index and a string array of funfacts is required.',
+      message: 'An index is required.',
     });
   }
 
   // Check if an entry for this state exists
-  const state = await State.findOne({ statecode: req.params.state }).exec();
+  const state = await State.findOne({ statecode: stateCode }).exec();
 
   if (!state) {
     // No state record found in database
@@ -196,7 +200,7 @@ const deleteFact = async (req, res) => {
     res.json({ message: 'Index out of bounds.' });
   } else {
     // Modify the found entry
-    state.funfacts.splice(index, 1);
+    state.funfacts.splice(index - 1, 1);
 
     // Save the modified entry
     const result = await state.save();
