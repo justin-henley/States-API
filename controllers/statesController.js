@@ -51,8 +51,8 @@ const getState = async (req, res) => {
 
   // Find the state and its fun facts
   const state = statesJson.find((state) => state.code === req.params.state);
-  const funfacts = await State.find({ statecode: req.params.state });
-  state.funfacts = funfacts || [];
+  const dbJson = await State.find({ statecode: req.params.state });
+  const result = joinStatesWithFunFacts([state], dbJson);
 
   // Respond with JSON
   res.json(state);
