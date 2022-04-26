@@ -113,12 +113,12 @@ const modifyFact = async (req, res) => {
 
   if (!index) {
     return res.status(400).json({
-      message: 'State fun fact index required',
+      message: 'State fun fact index value required',
     });
   }
   if (!funfact) {
     return res.status(400).json({
-      message: 'State fun facts value required',
+      message: 'State fun fact value required',
     });
   }
 
@@ -134,7 +134,7 @@ const modifyFact = async (req, res) => {
 
     // Return JSON message that no facts were found
     res.json({ message: `No Fun Facts found for ${stateName}` });
-  } else if (index < 1 || index > state.funfacts.length) {
+  } else if (index < 1 || ![index - 1]) {
     // Invalid index
     res.json({ message: 'No Fun Fact found at that index for ${stateName}' });
   } else {
