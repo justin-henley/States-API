@@ -136,7 +136,7 @@ const modifyFact = async (req, res) => {
     res.json({ message: `No Fun Facts found for ${stateName}` });
   } else if (index < 1 || ![index - 1]) {
     // Invalid index
-    res.json({ message: 'No Fun Fact found at that index for ${stateName}' });
+    res.json({ message: `No Fun Fact found at that index for ${stateName}` });
   } else {
     // Modify the found entry
     state.funfacts[index - 1] = funfact;
@@ -191,7 +191,7 @@ const deleteFact = async (req, res) => {
     res.json({ message: `No Fun Facts found for ${stateName}` });
   } else if (index < 1 || index > state.funfacts.length) {
     // Invalid index
-    res.json({ message: 'No Fun Fact found at that index for ${stateName}' });
+    res.json({ message: `No Fun Fact found at that index for ${stateName}` });
   } else {
     // Modify the found entry
     state.funfacts.splice(index - 1, 1);
