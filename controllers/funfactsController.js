@@ -3,11 +3,6 @@ const statesJson = require('../public/json/states.json');
 
 // Returns a single random fact for the given state
 const getRandomFact = async (req, res) => {
-  // Check that an state was provided
-  if (!req?.params?.state) {
-    return res.status(400).json({ message: 'State abbreviation required' });
-  }
-
   // Get all fun facts for the given state
   const state = await State.findOne({ statecode: req.params.state });
   const facts = state?.funfacts;
@@ -52,9 +47,6 @@ const getRandomFact = async (req, res) => {
     }
 */
 const createFact = async (req, res) => {
-  if (!req?.params?.state) {
-    return res.status(400).json({ message: 'State abbreviation required' });
-  }
   if (!req?.body?.funfacts) {
     return res.status(400).json({ message: 'State fun facts value required.' });
   }
@@ -119,9 +111,6 @@ const modifyFact = async (req, res) => {
   const index = req?.body?.index;
   const funfact = req?.body?.funfact;
 
-  if (!stateCode) {
-    return res.status(400).json({ message: 'State abbreviation required' });
-  }
   if (!index) {
     return res.status(400).json({
       message: 'State fun fact index required.',
@@ -182,9 +171,6 @@ const deleteFact = async (req, res) => {
   const index = req?.body?.index;
 
   // Ensure all required parameters were provided
-  if (!stateCode) {
-    return res.status(400).json({ message: 'State abbreviation required' });
-  }
   if (!index) {
     return res.status(400).json({
       message: 'An index is required.',
