@@ -3,6 +3,8 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const path = require('path');
+const cors = require('cors');
+const corsOptions = require('./config/corsOptions');
 const connectDB = require('./config/dbConn');
 const PORT = process.env.PORT || 3500;
 
@@ -10,7 +12,7 @@ const PORT = process.env.PORT || 3500;
 connectDB();
 
 // CORS
-// TODO function, corsOptions, allowedOrigins
+app.use(cors(corsOptions));
 
 // Handle url-encoded form data
 app.use(express.urlencoded({ extended: false }));
