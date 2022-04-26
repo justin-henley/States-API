@@ -58,7 +58,7 @@ const createFact = async (req, res) => {
   if (!req?.body?.funfacts) {
     return res.status(400).json({ message: 'State fun facts value required.' });
   }
-  if (!Array.isArray(funfacts)) {
+  if (!Array.isArray(req.body.funfacts)) {
     return res
       .status(400)
       .json({ message: 'State fun facts value must be an array.' });
