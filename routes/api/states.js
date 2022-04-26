@@ -32,9 +32,9 @@ router
 // State fun facts
 router
   .route('/:state/funfact')
-  .get(funfactsController.getRandomFact)
-  .post(funfactsController.createFact)
-  .patch(funfactsController.modifyFact)
-  .delete(funfactsController.deleteFact);
+  .get(verifyState, funfactsController.getRandomFact)
+  .post(verifyState, funfactsController.createFact)
+  .patch(verifyState, funfactsController.modifyFact)
+  .delete(verifyState, funfactsController.deleteFact);
 
 module.exports = router;
