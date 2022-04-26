@@ -3,9 +3,6 @@ const statesJson = require('../public/json/states.json');
 
 // Returns all data for all states
 const getAllStates = async (req, res) => {
-  // TODO Blackboard says we must attach fun facts here, but his example does not
-  // TODO What is correct? Theres a function below to help with this
-
   // Create varaible to hold the json from the states file and the db
   let stJson, dbJson;
   console.log(req?.query?.contig);
@@ -44,11 +41,6 @@ const getAllStates = async (req, res) => {
 
 // Returns all data for a single state
 const getState = async (req, res) => {
-  // Check that an state was provided
-  if (!req?.params?.state) {
-    return res.status(400).json({ message: 'State ID required' });
-  }
-
   // Find the state and its fun facts
   const state = statesJson.find((state) => state.code === req.params.state);
   const dbJson = await State.find({ statecode: req.params.state });
@@ -60,11 +52,6 @@ const getState = async (req, res) => {
 
 // Returns the capital of a given state
 const getStateCapital = (req, res) => {
-  // Check that an state was provided
-  if (!req?.params?.state) {
-    return res.status(400).json({ message: 'State ID required' });
-  }
-
   // Find the state and its capital
   const state = statesJson.find((state) => state.code === req.params.state);
 
@@ -77,11 +64,6 @@ const getStateCapital = (req, res) => {
 
 // Returns the nickname of a given state
 const getStateNickname = (req, res) => {
-  // Check that an state was provided
-  if (!req?.params?.state) {
-    return res.status(400).json({ message: 'State ID required' });
-  }
-
   // Find the state and its nickname
   const state = statesJson.find((state) => state.code === req.params.state);
 
@@ -94,28 +76,18 @@ const getStateNickname = (req, res) => {
 
 // Returns the population of a given state
 const getStatePopulation = (req, res) => {
-  // Check that an state was provided
-  if (!req?.params?.state) {
-    return res.status(400).json({ message: 'State ID required' });
-  }
-
   // Find the state and its population
   const state = statesJson.find((state) => state.code === req.params.state);
 
   // Return only the state name and population
   res.json({
     state: state.state,
-    population: state.population,
+    population: state.population.toLocaleString(),
   });
 };
 
 // Returns the population of a given state
 const getStateAdmission = (req, res) => {
-  // Check that an state was provided
-  if (!req?.params?.state) {
-    return res.status(400).json({ message: 'State ID required' });
-  }
-
   // Find the state and its admission
   const state = statesJson.find((state) => state.code === req.params.state);
 
@@ -136,8 +108,7 @@ module.exports = {
   getStateAdmission,
 };
 
-// Unclear if needed currently
-// TODO delete later if not
+// Takes an array of json objects for states and joins them with the fun facts from the database
 const joinStatesWithFunFacts = (statesJson, dbJson) => {
   return statesJson.map((stateJson) => {
     // Get the state code
