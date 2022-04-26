@@ -48,12 +48,12 @@ const getRandomFact = async (req, res) => {
 */
 const createFact = async (req, res) => {
   if (!req?.body?.funfacts) {
-    return res.status(400).json({ message: 'State fun facts value required.' });
+    return res.status(400).json({ message: 'State fun facts value required' });
   }
   if (!Array.isArray(req.body.funfacts)) {
     return res
       .status(400)
-      .json({ message: 'State fun facts value must be an array.' });
+      .json({ message: 'State fun facts value must be an array' });
   }
 
   // Check if an entry for this state already exists
@@ -113,12 +113,12 @@ const modifyFact = async (req, res) => {
 
   if (!index) {
     return res.status(400).json({
-      message: 'State fun fact index required.',
+      message: 'State fun fact index required',
     });
   }
   if (!funfact) {
     return res.status(400).json({
-      message: 'State fun facts value required.',
+      message: 'State fun facts value required',
     });
   }
 
@@ -173,7 +173,7 @@ const deleteFact = async (req, res) => {
   // Ensure all required parameters were provided
   if (!index) {
     return res.status(400).json({
-      message: 'An index is required.',
+      message: 'State fun fact index value required',
     });
   }
 
@@ -191,7 +191,7 @@ const deleteFact = async (req, res) => {
     res.json({ message: `No Fun Facts found for ${stateName}` });
   } else if (index < 1 || index > state.funfacts.length) {
     // Invalid index
-    res.json({ message: 'Index out of bounds.' });
+    res.json({ message: 'No Fun Fact found at that index for ${stateName}' });
   } else {
     // Modify the found entry
     state.funfacts.splice(index - 1, 1);
