@@ -134,7 +134,7 @@ const modifyFact = async (req, res) => {
 
     // Return JSON message that no facts were found
     res.json({ message: `No Fun Facts found for ${stateName}` });
-  } else if (index < 1 || !state.funfacts[index - 1]) {
+  } else if (!state.funfacts[index - 1]) {
     // Invalid index
     // Find the name of the state
     const stateName = statesJson.find(
