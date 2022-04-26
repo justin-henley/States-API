@@ -56,9 +56,12 @@ const createFact = async (req, res) => {
     return res.status(400).json({ message: 'State abbreviation required' });
   }
   if (!req?.body?.funfacts) {
+    return res.status(400).json({ message: 'State fun facts value required.' });
+  }
+  if (!Array.isArray(funfacts)) {
     return res
       .status(400)
-      .json({ message: 'A string array of funfacts is required.' });
+      .json({ message: 'State fun facts value must be an array.' });
   }
 
   // Check if an entry for this state already exists
@@ -119,9 +122,14 @@ const modifyFact = async (req, res) => {
   if (!stateCode) {
     return res.status(400).json({ message: 'State abbreviation required' });
   }
-  if (!index || !funfact) {
+  if (!index) {
     return res.status(400).json({
-      message: 'An index and a funfact is required.',
+      message: 'State fun fact index required.',
+    });
+  }
+  if (!funfact) {
+    return res.status(400).json({
+      message: 'State fun facts value required.',
     });
   }
 
@@ -139,7 +147,7 @@ const modifyFact = async (req, res) => {
     res.json({ message: `No Fun Facts found for ${stateName}` });
   } else if (index < 1 || index > state.funfacts.length) {
     // Invalid index
-    res.json({ message: 'Index out of bounds.' });
+    res.json({ message: 'No Fun Fact found at that index for ${stateName}' });
   } else {
     // Modify the found entry
     state.funfacts[index - 1] = funfact;
