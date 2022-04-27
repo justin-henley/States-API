@@ -5,7 +5,6 @@ const statesJson = require('../public/json/states.json');
 const getAllStates = async (req, res) => {
   // Create varaible to hold the json from the states file and the db
   let stJson, dbJson;
-  console.log(req?.query?.contig);
 
   // Check if contig option provided
   if (req?.query?.contig == 'true') {
@@ -14,17 +13,15 @@ const getAllStates = async (req, res) => {
       (state) => state.code !== 'AK' && state.code !== 'HI'
     );
     dbJson = await State.find();
-    console.log(stJson, dbJson, 'found true');
   } else if (req?.query?.contig == 'false') {
     // If contig is false, return only AK and HI
     stJson = statesJson.filter(
       (state) => state.code === 'AK' || state.code === 'HI'
     );
     dbJson = await State.find();
-    console.log(stJson, dbJson, 'found false');
   } else {
     // If contig not specified, return all states
-    stJson = statesJson;
+    stJson = JSON.parse(JSON.stringify(statesJson));
     dbJson = await State.find();
   }
 
