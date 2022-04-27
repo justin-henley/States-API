@@ -111,18 +111,21 @@ const joinStatesWithFunFacts = (statesJson, dbJson) => {
     // Get the state code
     const stateCode = stateJson.code;
 
+    // Deep copy the json to avoid adding funfacts to the stateJson in cache
+    const result = JSON.parse(JSON.stringify(stateJson));
+
     // Find the matching fun facts in the dbJson, if any
     const facts = dbJson.find((state) => state.statecode === stateCode);
 
     // Join the fun facts to the stateJson
     if (facts?.funfacts?.length > 0 && facts.funfacts !== []) {
-      stateJson.funfacts = facts.funfacts;
+      result.funfacts = facts.funfacts;
     }
     // TODO delete
-    console.log(stateJson, facts);
+    console.log(stateJson, result, facts);
     console.log('Hi');
 
     // Return the result
-    return stateJson;
+    return result;
   });
 };
