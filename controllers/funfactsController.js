@@ -8,7 +8,7 @@ const getRandomFact = async (req, res) => {
   const facts = state?.funfacts;
 
   // Ensure results were found
-  if (!facts) {
+  if (!facts || facts.length === 0) {
     // Find the name of the state
     const stateName = statesJson.find(
       (state) => state.code === req.params.state
