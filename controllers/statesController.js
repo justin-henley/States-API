@@ -44,7 +44,7 @@ const getState = async (req, res) => {
   const result = joinStatesWithFunFacts([state], dbJson);
 
   // Respond with JSON
-  res.json(state);
+  res.json(result);
 };
 
 // Returns the capital of a given state
@@ -112,7 +112,7 @@ const joinStatesWithFunFacts = (statesJson, dbJson) => {
     const stateCode = stateJson.code;
 
     // Deep copy the json to avoid adding funfacts to the stateJson in cache
-    const result = JSON.parse(JSON.stringify(stateJson));
+    let result = JSON.parse(JSON.stringify(stateJson));
 
     // Find the matching fun facts in the dbJson, if any
     const facts = dbJson.find((state) => state.statecode === stateCode);
