@@ -115,9 +115,12 @@ const joinStatesWithFunFacts = (statesJson, dbJson) => {
     const facts = dbJson.find((state) => state.statecode === stateCode);
 
     // Join the fun facts to the stateJson
-    if (facts?.funfacts?.length > 0) {
+    if (facts?.funfacts?.length > 0 && facts.funfacts !== []) {
       stateJson.funfacts = facts.funfacts;
     }
+    // TODO delete
+    console.log(stateJson, facts);
+    console.log('Hi');
 
     // Return the result
     return stateJson;
