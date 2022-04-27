@@ -1,5 +1,7 @@
 const State = require('../model/State');
 const statesJson = require('../public/json/states.json');
+// Freeze the states json data to prevent changes
+statesJson.freeze();
 
 // Returns a single random fact for the given state
 const getRandomFact = async (req, res) => {
