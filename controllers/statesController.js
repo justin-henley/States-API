@@ -44,7 +44,8 @@ const getState = async (req, res) => {
   const result = joinStatesWithFunFacts([state], dbJson);
 
   // Respond with JSON
-  res.json(result);
+  // joinStates function returns an array, so for a single state the first element must be returned
+  res.json(result[0]);
 };
 
 // Returns the capital of a given state
