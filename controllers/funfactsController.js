@@ -1,7 +1,12 @@
 const State = require('../model/State');
 const statesJson = require('../public/json/states.json');
 
-// Returns a single random fact for the given state
+/*
+  Returns a single random fact for the given state
+  Requires: 
+    - req.params.state exists and is a valid two-character uppercase state code
+    - statesJson to be defined to reference the states.json file
+*/
 const getRandomFact = async (req, res) => {
   // Get all fun facts for the given state
   const state = await State.findOne({ statecode: req.params.state });
@@ -26,30 +31,35 @@ const getRandomFact = async (req, res) => {
   }
 };
 
-// Create a new random fact entry in the database
 /*
-    INPUT:
-    {
-        "funfacts": [
-            "Alabama is a state",
-            "In Alabama, trees are called bumblesnoots."
-        ]
-    }
-    OUTPUT:
-    {
+  Create a new random fact entry in the database
+  
+  Requires: 
+    - req.params.state exists and is a valid two-character uppercase state code
+    - statesJson to be defined to reference the states.json file
+    - Request body {
+          "funfacts": [
+              "Alabama is a state",
+              "In Alabama, trees have leaves."
+          ]
+      }
+
+  Returns: {
         "stateCode": "AL",
         "funfacts": [
             "Alabama is a state",
-            "In Alabama, trees are called bumblesnoots."
+            "In Alabama, trees have leaves."
         ],
         "_id": "62616d0b719d8e20a8898b11",
         "__v": 0
     }
 */
 const createFact = async (req, res) => {
+  // Ensure a fun fact object was passed in the request body
   if (!req?.body?.funfacts) {
     return res.status(400).json({ message: 'State fun facts value required' });
   }
+  // Ensure the funfacts value is an array
   if (!Array.isArray(req.body.funfacts)) {
     return res
       .status(400)
@@ -76,6 +86,7 @@ const createFact = async (req, res) => {
         funfacts: [...req.body.funfacts],
       });
 
+      // Return the results
       res.status(201).json(result);
     } catch (error) {
       console.log(error);
@@ -83,15 +94,19 @@ const createFact = async (req, res) => {
   }
 };
 
-// Modify an existing fact entry
+//
 /*
-    INPUT:
-    {
-        "index": 2,
-        "funfact": "In Alabama, beds are where people sleep."
-    }
-    OUTPUT:
-    {
+  Modify an existing fact entry
+
+  Requires:
+    - req.params.state exists and is a valid two-character uppercase state code
+    - statesJson to be defined to reference the states.json file
+    - Request body {
+          "index": 2,
+          "funfact": "In Alabama, beds are where people sleep."
+      }
+  
+  Returns: {
         "_id": "62616d0b719d8e20a8898b11",
         "stateCode": "AL",
         "funfacts": [
@@ -111,11 +126,13 @@ const modifyFact = async (req, res) => {
   const index = req?.body?.index;
   const funfact = req?.body?.funfact;
 
+  // Ensure an index value was provided in the request body
   if (!index) {
     return res.status(400).json({
       message: 'State fun fact index value required',
     });
   }
+  // Ensure a funfact value was provided
   if (!funfact) {
     return res.status(400).json({
       message: 'State fun fact value required',
@@ -154,14 +171,15 @@ const modifyFact = async (req, res) => {
   }
 };
 
-// Delete an existing fact entry
-/*
-    INPUT:
-    {
-        "index": 2
-    }
-    OUTPUT:
-    {
+/* Delete an existing fact entry
+  Requires:
+    - req.params.state exists and is a valid two-character uppercase state code
+    - statesJson to be defined to reference the states.json file
+    - Request body: {
+          "index": 2
+      }
+
+  Returns: {
         "_id": "62616d0b719d8e20a8898b11",
         "stateCode": "AL",
         "funfacts": [

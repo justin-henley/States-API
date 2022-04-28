@@ -40,8 +40,6 @@ app.all('*', (req, res) => {
   }
 });
 
-// TODO do I require the error logging function he used?
-
 // Announce successful database connection in console
 mongoose.connection.once('open', () => {
   console.log('Connected to MongoDB');

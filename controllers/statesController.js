@@ -122,9 +122,6 @@ const joinStatesWithFunFacts = (statesJson, dbJson) => {
     if (facts?.funfacts?.length > 0 && facts.funfacts !== []) {
       result.funfacts = facts.funfacts;
     }
-    // TODO delete
-    console.log(stateJson, result, facts);
-    console.log('Hi');
 
     // Return the result
     return result;
