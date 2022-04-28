@@ -112,7 +112,7 @@ const joinStatesWithFunFacts = (statesJson, dbJson) => {
     const stateCode = stateJson.code;
 
     // Deep copy the json to avoid adding funfacts to the stateJson in cache
-    let result = JSON.parse(JSON.stringify(stateJson));
+    let result = { ...stateJson };
 
     // Find the matching fun facts in the dbJson, if any
     const facts = dbJson.find((state) => state.statecode === stateCode);
